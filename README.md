@@ -1,4 +1,4 @@
-# vue_ts
+# kindlex
 
 ## Project setup
 ```
