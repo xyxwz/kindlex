@@ -16,7 +16,8 @@
     <!-- <p>{{adPicture}}</p> -->
     <!-- <p>{{clientWidth}}</p> -->
     <!-- <p>{{clientHeight}}</p> -->
-    <img :src="require('@/assets/'+adPicture)">
+    <!-- <img :src="require('@/assets/'+adPicture)"/> -->
+    <img :src="'/images/'+adPicture" :alt="adPicture"/>
   </div>
 </template>
 
