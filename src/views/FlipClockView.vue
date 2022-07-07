@@ -52,6 +52,10 @@ export default {
       this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
       // this.adtimer = setTimeout(this.ad, (60 - this.bjtime.second()) * 1000) // test
       // console.log(60 - this.bjtime.second())
+      // 配置全局的基本URL
+      // this.$axios.defaults.timeout = 1000
+      // this.$axios.defaults.baseURL = 'http://localhost:5001/v1'
+      // this.dal(0) // 记录刷新
     },
     // 开始计时
     run () {
@@ -77,9 +81,11 @@ export default {
     // 广告更换
     ad () {
       // 凌晨更换图片
-      this.adPicture = moment().utcOffset(480).date().toString() + '.png'
+      // this.adPicture = moment().utcOffset(480).date().toString() + '.png'
       // this.adPicture = moment().minute().toString() + '.png'
-      this.adtimer = setTimeout(this.ad, 86400000) // 24*60*60*1000
+      // this.adtimer = setTimeout(this.ad, 86400000) // 24*60*60*1000
+      // this.dal(1) // 记录换广告
+      this.$router.go(0) // 刷新，重置，间接换广告
     },
     // 显示时钟
     fclock () {
@@ -88,6 +94,22 @@ export default {
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nextTimeStr[i])
       }
+    },
+    // 记录kindle访问
+    dal (worktype) {
+      this.$axios.post('/kindle', {
+        cid: sessionStorage.getItem('cid'),
+        cip: sessionStorage.getItem('cip'),
+        cname: sessionStorage.getItem('cname'),
+        cwork: worktype
+      }).then(res => {
+        // console.log(res.data)
+        return res.data
+      }).catch(err => {
+        // 请求拦截器和响应拦截器抛出错误时，返回的err对象会传给当前函数的err对象
+        // console.log(err)
+        return err
+      })
     }
   },
   mounted () {
