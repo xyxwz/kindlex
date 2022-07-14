@@ -23,7 +23,8 @@
 
 <script>
 import Flipper from '@/components/Flipper.vue'
-import moment from 'moment-timezone'
+// import moment from 'moment-timezone'
+import moment from 'moment'
 
 export default {
   name: 'FlipClockView',
@@ -53,9 +54,9 @@ export default {
       // this.adtimer = setTimeout(this.ad, (60 - this.bjtime.second()) * 1000) // test
       // console.log(60 - this.bjtime.second())
       // 配置全局的基本URL
-      // this.$axios.defaults.timeout = 1000
-      // this.$axios.defaults.baseURL = 'http://localhost:5001/v1'
-      // this.dal(0) // 记录刷新
+      this.$axios.defaults.timeout = 1000
+      this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
+      this.dal(0) // 记录刷新
     },
     // 开始计时
     run () {
