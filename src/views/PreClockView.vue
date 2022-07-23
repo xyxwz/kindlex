@@ -1,7 +1,7 @@
 /*
- * 翻牌数字
- * @author： 兔子先生+薛先生
- * @createDate: 2019-11-24
+ * 预览插画
+ * @author： 薛先生
+ * @createDate: 2022-07-20
  * 2022-06-25 增加每小时定时修正计时器
  */
 <template>
@@ -12,9 +12,9 @@
     <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    <!-- <p>{{clientWidth}}</p> -->
+    <!-- <p>{{'/images/pre/'+adPicture.toString()+'.jpg'}}</p> -->
     <!-- <p>{{clientHeight}}</p> -->
-    <img :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+    <img :src="'/images/pre/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -24,7 +24,7 @@ import moment from 'moment'
 import objectFitImages from 'object-fit-images'
 
 export default {
-  name: 'FlipClockView',
+  name: 'PreClockView',
   data () {
     return {
       bootimer: null, // 校时倒计时时钟
@@ -32,11 +32,17 @@ export default {
       flipObjs: [], // 翻牌数字列表
       wzoom: document.body.clientWidth / 320, // 放大倍数
       bjtime: moment().utcOffset(480), // 北京时间
-      adPicture: 0 // 广告图片
+      adPicture: 1 // 广告图片
       // clientWidth: document.body.clientWidth,
       // clientHeight: document.body.scrollHeight
     }
   },
+  // 监控变量变化
+  // watch: {
+  //   adPicture () {
+  //     objectFitImages(this.$refs.adPic)
+  //   }
+  // },
   components: {
     Flipper
   },
@@ -45,36 +51,28 @@ export default {
     init () {
       this.fclock()
       // 启动整分钟倒计时
-      if (this.bjtime.second() >= 55) {
-        this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      } else {
-        this.bootimer = setTimeout(this.run, 5000 - this.bjtime.millisecond())
-      }
-      // this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
+      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+      this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
       // 配置全局的基本URL
       this.$axios.defaults.timeout = 1000
       this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
-      this.dal(0) // 记录刷新
+      this.dal(1) // 记录刷新
     },
     // 开始计时
     run () {
-      // 换点
       this.fclock()
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      // 更换图片
-      if (this.adPicture === 0) {
-        this.adPicture = moment().utcOffset(480).date()
-        // objectFitImages(this.$refs.adPic)
-        setTimeout(this.fitimage, 1000)
-      }
-      // this.adPicture = moment().utcOffset(480).date()
-      // objectFitImages(this.$refs.adPic)
     },
     // 广告更换
     ad () {
-      // 凌晨更换图片
-      this.$router.go(0) // 刷新，重置，间接换广告
+      if (this.adPicture === 31) {
+        this.adPicture = 1
+      } else {
+        this.adPicture = this.adPicture + 1
+      }
+      objectFitImages(this.$refs.adPic)
+      // setTimeout(this.loadimg, 200)
+      this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
     },
     // 显示时钟
     fclock () {
@@ -85,7 +83,7 @@ export default {
       }
     },
     // 图片加载完毕
-    fitimage () {
+    loadimg () {
       // 刷新图片
       objectFitImages(this.$refs.adPic)
     },
