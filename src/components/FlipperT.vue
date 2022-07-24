@@ -2,12 +2,11 @@
  * 翻牌数字
  * @author： 兔子先生
  * @createDate: 2019-11-24
- * 屏蔽back
  */
 <template>
   <div class="M-Flipper" :class="[flipType, {'go': isFlipping}]">
     <div class="digital front" :class="_textClass(frontTextFromData)"></div>
-    <!-- <div class="digital back" :class="_textClass(backTextFromData)"></div> -->
+    <div class="digital back" :class="_textClass(backTextFromData)"></div>
   </div>
 </template>
 
