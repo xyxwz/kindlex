@@ -29,6 +29,7 @@ export default {
     return {
       bootimer: null, // 校时倒计时时钟
       adtimer: null, // 广告倒计时时钟
+      imgtimer: null, // 图片更换倒计时
       flipObjs: [], // 翻牌数字列表
       wzoom: document.body.clientWidth / 320, // 放大倍数
       bjtime: moment().utcOffset(480), // 北京时间
@@ -44,14 +45,16 @@ export default {
     // 初始化数字
     init () {
       this.fclock()
-      // 启动整分钟倒计时
+      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+
+      // 启动换图倒计时
       if (this.bjtime.second() >= 55) {
-        this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+        this.imgtimer = setTimeout(this.fitimage, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
       } else {
-        this.bootimer = setTimeout(this.run, 5000 - this.bjtime.millisecond())
+        this.imgtimer = setTimeout(this.fitimage, 5000 - this.bjtime.millisecond())
       }
-      // this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
       this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
+
       // 配置全局的基本URL
       this.$axios.defaults.timeout = 1000
       this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
@@ -62,14 +65,6 @@ export default {
       // 换点
       this.fclock()
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      // 更换图片
-      if (this.adPicture === 0) {
-        this.adPicture = moment().utcOffset(480).date()
-        // objectFitImages(this.$refs.adPic)
-        setTimeout(this.fitimage, 1000)
-      }
-      // this.adPicture = moment().utcOffset(480).date()
-      // objectFitImages(this.$refs.adPic)
     },
     // 广告更换
     ad () {
@@ -88,6 +83,18 @@ export default {
     fitimage () {
       // 刷新图片
       objectFitImages(this.$refs.adPic)
+
+      // 更换图片
+      if (this.adPicture === 0) {
+        // kindle刷新
+        this.adPicture = 100
+        // objectFitImages(this.$refs.adPic)
+        this.imgtimer = setTimeout(this.fitimage, 1000)
+      } else if (this.adPicture === 100) {
+        this.adPicture = moment().utcOffset(480).date()
+        // objectFitImages(this.$refs.adPic)
+        this.imgtimer = setTimeout(this.fitimage, 1000)
+      }
     },
     // 记录kindle访问
     dal (worktype) {
@@ -119,8 +126,10 @@ export default {
   beforeDestroy () {
     clearTimeout(this.bootimer)
     clearTimeout(this.adtimer)
+    clearTimeout(this.imgtimer)
     this.bootimer = null
     this.adtimer = null
+    this.imgtimer = null
   }
 }
 </script>

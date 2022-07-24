@@ -32,7 +32,8 @@ export default {
       flipObjs: [], // 翻牌数字列表
       wzoom: document.body.clientWidth / 320, // 放大倍数
       bjtime: moment().utcOffset(480), // 北京时间
-      adPicture: 1 // 广告图片
+      adPicture: 1, // 广告图片
+      adNum: 1 // 当前广告号
       // clientWidth: document.body.clientWidth,
       // clientHeight: document.body.scrollHeight
     }
@@ -65,14 +66,21 @@ export default {
     },
     // 广告更换
     ad () {
-      if (this.adPicture === 31) {
-        this.adPicture = 1
+      if (this.adPicture === 100) {
+        if (this.adNum === 31) {
+          this.adPicture = 1
+          this.adNum = 1
+        } else {
+          this.adNum += 1
+          this.adPicture = this.adNum
+        }
+        this.adtimer = setTimeout(this.ad, 1000) // 更换未来图片
       } else {
-        this.adPicture = this.adPicture + 1
+        this.adPicture = 100
+        this.adtimer = setTimeout(this.ad, 4000) // 更换未来图片
       }
       objectFitImages(this.$refs.adPic)
       // setTimeout(this.loadimg, 200)
-      this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
     },
     // 显示时钟
     fclock () {
