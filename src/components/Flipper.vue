@@ -101,7 +101,7 @@ export default {
   color: #fff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   text-align: center;
-  font-family: 'Helvetica Neue';
+  font-family: Impact, 'Helvetica Neue', Helvetica;
 }
 
 .M-Flipper .digital:before,
