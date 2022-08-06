@@ -6,9 +6,29 @@
       <router-link to="/about">About</router-link> -->
     </nav>
     <div class="main"><router-view/></div>
-    <div class="footer"><a href="https://beian.miit.gov.cn/">&nbsp;京ICP备2022019482号-1</a></div>
+    <div class="footer">
+      <a href="https://beian.miit.gov.cn/">京ICP备2022019482号-1&nbsp;</a> |
+      <a @click="buildToast">&nbsp;Time Zone 时区设置</a>
+    </div>
   </div>
 </template>
+
+<script>
+// import miniToastr from 'mini-toastr'
+
+export default {
+  name: 'app',
+  methods: {
+    buildToast () {
+      // miniToastr.info('地址：https://660901.cn/?z=时区值，如：\r 格林尼治标准时间地址https://660901.cn/?z=0 \r 爪哇时间+07:30地址https://660901.cn/?z=7.5 \n 夏威夷时间-09:00地址https://660901.cn/?z=-9', '地址设置', 5000)
+      alert('时区地址：https://660901.cn/?z=时区值  如：\r格林尼治标准时间地址\t https://660901.cn/?z=0 \r爪 哇 时间+07:30地址\t https://660901.cn/?z=7.5 \r夏威夷时间-09:00地址\t https://660901.cn/?z=-9')
+    }
+  },
+  mounted () {
+    // miniToastr.init()
+  }
+}
+</script>
 
 <style lang="less">
 #app {
@@ -33,8 +53,9 @@ nav {
 }
 
 a {
-  text-decoration:none;
+  text-decoration:underline;
   color: #3f3f3f;
+  cursor: pointer;
 }
 
 a:hover {

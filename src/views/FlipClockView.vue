@@ -32,7 +32,8 @@ export default {
       imgtimer: null, // 图片更换倒计时
       flipObjs: [], // 翻牌数字列表
       wzoom: document.body.clientWidth / 320, // 放大倍数
-      bjtime: moment().utcOffset(480), // 北京时间
+      timezone: 8, // 时区，默认北京时间
+      bjtime: moment().utcOffset(8), // 北京时间
       adPicture: 0 // 广告图片
       // clientWidth: document.body.clientWidth,
       // clientHeight: document.body.scrollHeight
@@ -44,6 +45,15 @@ export default {
   methods: {
     // 初始化数字
     init () {
+      // 获取时区 ?z=number(-12~12)
+      const zparm = this.getURLParameter('z', window.location.href)
+      if (this.isNotEmptyStr(zparm) && !isNaN(Number(zparm))) {
+        if (Number(zparm) >= -12 && Number(zparm) <= 12) {
+          this.timezone = Number(zparm)
+        }
+      }
+
+      // 初始时钟
       this.fclock()
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
 
@@ -73,7 +83,7 @@ export default {
     },
     // 显示时钟
     fclock () {
-      this.bjtime = moment().utcOffset(480)
+      this.bjtime = moment().utcOffset(this.timezone)
       const nextTimeStr = this.bjtime.format('HHmmss')
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nextTimeStr[i])
@@ -91,7 +101,7 @@ export default {
         // objectFitImages(this.$refs.adPic)
         this.imgtimer = setTimeout(this.fitimage, 1000)
       } else if (this.adPicture === 100) {
-        this.adPicture = moment().utcOffset(480).date()
+        this.adPicture = moment().utcOffset(this.timezone).date()
         // objectFitImages(this.$refs.adPic)
         this.imgtimer = setTimeout(this.fitimage, 1000)
       }
@@ -111,6 +121,21 @@ export default {
         // console.log(err)
         return err
       })
+    },
+    getURLParameter (name, urlsearch) {
+      try {
+        return (decodeURIComponent(
+          (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(urlsearch || location.search))[1].replace(/\+/g, '%20')
+        ))
+      } catch {
+        return ''
+      }
+    },
+    isNotEmptyStr (s) {
+      if (typeof s === 'string' && s.length > 0) {
+        return true
+      }
+      return false
     }
   },
   mounted () {
