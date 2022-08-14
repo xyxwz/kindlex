@@ -58,11 +58,12 @@ export default {
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
 
       // 启动换图倒计时
-      if (this.bjtime.second() >= 55) {
-        this.imgtimer = setTimeout(this.fitimage, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      } else {
-        this.imgtimer = setTimeout(this.fitimage, 5000 - this.bjtime.millisecond())
-      }
+      // if (this.bjtime.second() >= 55) {
+      //   this.imgtimer = setTimeout(this.fitimage, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+      // } else {
+      //   this.imgtimer = setTimeout(this.fitimage, 5000 - this.bjtime.millisecond())
+      // }
+      this.imgtimer = setTimeout(this.fitimage, 10000 - this.bjtime.millisecond()) // 10s
       this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
 
       // 配置全局的基本URL
