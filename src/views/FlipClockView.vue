@@ -92,16 +92,23 @@ export default {
     },
     // 图片加载完毕
     fitimage () {
-      // 刷新图片
+      // 兼容性刷新图片
       objectFitImages(this.$refs.adPic)
 
       // 更换图片
+      // if (this.adPicture === 0) {
+      //   // kindle刷新
+      //   this.adPicture = 100
+      //   // objectFitImages(this.$refs.adPic)
+      //   this.imgtimer = setTimeout(this.fitimage, 1000)
+      // } else if (this.adPicture === 100) {
+      //   this.adPicture = moment().utcOffset(this.timezone).date()
+      //   // objectFitImages(this.$refs.adPic)
+      //   this.imgtimer = setTimeout(this.fitimage, 1000)
+      // }
+
+      // 更换图片+不加空白
       if (this.adPicture === 0) {
-        // kindle刷新
-        this.adPicture = 100
-        // objectFitImages(this.$refs.adPic)
-        this.imgtimer = setTimeout(this.fitimage, 1000)
-      } else if (this.adPicture === 100) {
         this.adPicture = moment().utcOffset(this.timezone).date()
         // objectFitImages(this.$refs.adPic)
         this.imgtimer = setTimeout(this.fitimage, 1000)

@@ -66,19 +66,30 @@ export default {
     },
     // 广告更换
     ad () {
-      if (this.adPicture === 100) {
-        if (this.adNum === 31) {
-          this.adPicture = 1
-          this.adNum = 1
-        } else {
-          this.adNum += 1
-          this.adPicture = this.adNum
-        }
-        this.adtimer = setTimeout(this.ad, 1000) // 更换未来图片
+      // if (this.adPicture === 100) {
+      //   if (this.adNum === 31) {
+      //     this.adPicture = 1
+      //     this.adNum = 1
+      //   } else {
+      //     this.adNum += 1
+      //     this.adPicture = this.adNum
+      //   }
+      //   this.adtimer = setTimeout(this.ad, 1000) // 更换未来图片
+      // } else {
+      //   this.adPicture = 100
+      //   this.adtimer = setTimeout(this.ad, 4000) // 更换未来图片
+      // }
+      // 更换图片，不加空白
+      if (this.adNum === 31) {
+        this.adPicture = 1
+        this.adNum = 1
       } else {
-        this.adPicture = 100
-        this.adtimer = setTimeout(this.ad, 4000) // 更换未来图片
+        this.adNum += 1
+        this.adPicture = this.adNum
       }
+      this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
+
+      // 兼容显示
       objectFitImages(this.$refs.adPic)
       // setTimeout(this.loadimg, 200)
     },
@@ -89,11 +100,6 @@ export default {
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nextTimeStr[i])
       }
-    },
-    // 图片加载完毕
-    loadimg () {
-      // 刷新图片
-      objectFitImages(this.$refs.adPic)
     },
     // 记录kindle访问
     dal (worktype) {
