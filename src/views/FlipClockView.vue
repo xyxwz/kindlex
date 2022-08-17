@@ -184,7 +184,7 @@ export default {
 .FlipClock img {
      object-fit: contain;
      font-family: "object-fit: contain;";
-     width: 90%;
-     max-height: 50%;
+     width: 80%;
+     max-height: 52%;
 }
 </style>

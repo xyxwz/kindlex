@@ -137,7 +137,7 @@ export default {
 }
 </script>
 
-<style>
+<!-- <style>
 .FlipClock {
     text-align: center;
 }
@@ -157,4 +157,4 @@ export default {
      width: 90%;
      max-height: 50%;
 }
-</style>
+</style> -->

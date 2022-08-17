@@ -46,14 +46,14 @@ export default {
 nav {
   padding: 30px;
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+  // a {
+  //   font-weight: bold;
+  //   color: #2c3e50;
 
-    &.router-link-exact-active {
-      color: #2c3e50;
-    }
-  }
+  //   &.router-link-exact-active {
+  //     color: #2c3e50;
+  //   }
+  // }
 }
 
 a {
@@ -70,7 +70,6 @@ a:hover {
 .main {
   padding-bottom: 30px;
   overflow-y: hidden;
-  // max-height: 50%;
 }
 
 .footer {
