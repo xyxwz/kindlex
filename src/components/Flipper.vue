@@ -2,12 +2,11 @@
  * 翻牌数字
  * @author： 兔子先生
  * @createDate: 2019-11-24
- * 屏蔽back
  */
 <template>
   <div class="M-Flipper" :class="[flipType, {'go': isFlipping}]">
     <div class="digital front" :class="_textClass(frontTextFromData)"></div>
-    <!-- <div class="digital back" :class="_textClass(backTextFromData)"></div> -->
+    <div class="digital back" :class="_textClass(backTextFromData)"></div>
   </div>
 </template>
 
@@ -101,7 +100,7 @@ export default {
   color: #fff;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
   text-align: center;
-  font-family: Impact, 'Helvetica Neue', Helvetica;
+  font-family: 'Helvetica Neue';
 }
 
 .M-Flipper .digital:before,
@@ -137,7 +136,9 @@ export default {
 .M-Flipper.down .back:after {
   z-index: 2;
   transform-origin: 50% 0%;
+  -webkit-transform-origin: 50% 0%;
   transform: perspective(160px) rotateX(180deg);
+  -webkit-transform: perspective(160px) rotateX(180deg);
 }
 
 .M-Flipper.down .front:after,
@@ -147,13 +148,16 @@ export default {
 
 .M-Flipper.down.go .front:before {
   transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;
   animation: frontFlipDown 0.6s ease-in-out both;
+  -webkit-animation: frontFlipDown 0.6s ease-in-out both;
   box-shadow: 0 -2px 6px rgba(255, 255, 255, 0.3);
   backface-visibility: hidden;
 }
 
 .M-Flipper.down.go .back:after {
   animation: backFlipDown 0.6s ease-in-out both;
+  -webkit-animation: backFlipDown 0.6s ease-in-out both;
 }
 
 /*向上翻*/
@@ -164,7 +168,9 @@ export default {
 .M-Flipper.up .back:before {
   z-index: 2;
   transform-origin: 50% 100%;
+  -webkit-transform-origin: 50% 100%;
   transform: perspective(160px) rotateX(-180deg);
+  -webkit-transform: perspective(160px) rotateX(-180deg);
 }
 
 .M-Flipper.up .front:before,
@@ -174,13 +180,16 @@ export default {
 
 .M-Flipper.up.go .front:after {
   transform-origin: 50% 0;
+  -webkit-transform-origin: 50% 0;
   animation: frontFlipUp 0.6s ease-in-out both;
+  -webkit-animation: frontFlipUp 0.6s ease-in-out both;
   box-shadow: 0 2px 6px rgba(255, 255, 255, 0.3);
   backface-visibility: hidden;
 }
 
 .M-Flipper.up.go .back:before {
   animation: backFlipUp 0.6s ease-in-out both;
+  -webkit-animation: backFlipUp 0.6s ease-in-out both;
 }
 
 @keyframes frontFlipDown {
@@ -190,6 +199,16 @@ export default {
 
   100% {
     transform: perspective(160px) rotateX(-180deg);
+  }
+}
+
+@-webkit-keyframes frontFlipDown {
+  0% {
+    -webkit-transform: perspective(160px) rotateX(0deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(160px) rotateX(-180deg);
   }
 }
 
@@ -203,6 +222,16 @@ export default {
   }
 }
 
+@-webkit-keyframes backFlipDown {
+  0% {
+    -webkit-transform: perspective(160px) rotateX(180deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(160px) rotateX(0deg);
+  }
+}
+
 @keyframes frontFlipUp {
   0% {
     transform: perspective(160px) rotateX(0deg);
@@ -213,6 +242,16 @@ export default {
   }
 }
 
+@-webkit-keyframes frontFlipUp {
+  0% {
+    -webkit-transform: perspective(160px) rotateX(0deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(160px) rotateX(180deg);
+  }
+}
+
 @keyframes backFlipUp {
   0% {
     transform: perspective(160px) rotateX(-180deg);
@@ -220,6 +259,16 @@ export default {
 
   100% {
     transform: perspective(160px) rotateX(0deg);
+  }
+}
+
+@-webkit-keyframes backFlipUp {
+  0% {
+    -webkit-transform: perspective(160px) rotateX(-180deg);
+  }
+
+  100% {
+    -webkit-transform: perspective(160px) rotateX(0deg);
   }
 }
 

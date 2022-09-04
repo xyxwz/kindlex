@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import FlipClockView from '@/views/FlipClockView.vue'
 import PreClockView from '@/views/PreClockView.vue'
+import PadClockView from '@/views/PadClockView.vue'
 
 Vue.use(VueRouter)
 
@@ -11,7 +12,15 @@ const routes: Array<RouteConfig> = [
     name: 'clock',
     component: FlipClockView,
     meta: {
-      title: 'Kindle时钟'
+      title: 'Kindle插画时钟'
+    }
+  },
+  {
+    path: '/i',
+    name: 'padclock',
+    component: PadClockView,
+    meta: {
+      title: 'iPad插画时钟'
     }
   },
   {

@@ -12,8 +12,6 @@
     <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    <!-- <p>{{'/images/pre/'+adPicture.toString()+'.jpg'}}</p> -->
-    <!-- <p>{{clientHeight}}</p> -->
     <img :src="'/images/pre/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
@@ -34,16 +32,8 @@ export default {
       bjtime: moment().utcOffset(480), // 北京时间
       adPicture: 1, // 广告图片
       adNum: 1 // 当前广告号
-      // clientWidth: document.body.clientWidth,
-      // clientHeight: document.body.scrollHeight
     }
   },
-  // 监控变量变化
-  // watch: {
-  //   adPicture () {
-  //     objectFitImages(this.$refs.adPic)
-  //   }
-  // },
   components: {
     Flipper
   },
@@ -66,19 +56,6 @@ export default {
     },
     // 广告更换
     ad () {
-      // if (this.adPicture === 100) {
-      //   if (this.adNum === 31) {
-      //     this.adPicture = 1
-      //     this.adNum = 1
-      //   } else {
-      //     this.adNum += 1
-      //     this.adPicture = this.adNum
-      //   }
-      //   this.adtimer = setTimeout(this.ad, 1000) // 更换未来图片
-      // } else {
-      //   this.adPicture = 100
-      //   this.adtimer = setTimeout(this.ad, 4000) // 更换未来图片
-      // }
       // 更换图片，不加空白
       if (this.adNum === 31) {
         this.adPicture = 1
@@ -91,7 +68,6 @@ export default {
 
       // 兼容显示
       objectFitImages(this.$refs.adPic)
-      // setTimeout(this.loadimg, 200)
     },
     // 显示时钟
     fclock () {
@@ -136,25 +112,3 @@ export default {
   }
 }
 </script>
-
-<!-- <style>
-.FlipClock {
-    text-align: center;
-}
-.FlipClock .M-Flipper {
-    margin: 0 3px;
-}
-.FlipClock em {
-    display: inline-block;
-    line-height: 102px;
-    font-size: 66px;
-    font-style: normal;
-    vertical-align: top;
-}
-.FlipClock img {
-     object-fit: contain;
-     font-family: "object-fit: contain;";
-     width: 90%;
-     max-height: 50%;
-}
-</style> -->

@@ -2,7 +2,7 @@
  * 翻牌数字
  * @author： 兔子先生+薛先生
  * @createDate: 2019-11-24
- * 2022-06-25 增加每小时定时修正计时器
+ * 2022-08-17 支持ipad时钟动画
  */
 <template>
   <div class="FlipClock">
@@ -11,10 +11,11 @@
     <em v-bind:style="{zoom:wzoom}">:</em>
     <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
+    <em v-bind:style="{zoom:wzoom}">:</em>
+    <Flipper ref="flipperSecond1" v-bind:style="{zoom:wzoom}"/>
+    <Flipper ref="flipperSecond2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    <!-- <p>{{clientWidth}}</p> -->
-    <!-- <p>{{clientHeight}}</p> -->
-    <img :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+    <img class="PadImg" :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -24,19 +25,17 @@ import moment from 'moment'
 import objectFitImages from 'object-fit-images'
 
 export default {
-  name: 'FlipClockView',
+  name: 'PadClockView',
   data () {
     return {
       bootimer: null, // 校时倒计时时钟
       adtimer: null, // 广告倒计时时钟
       imgtimer: null, // 图片更换倒计时
       flipObjs: [], // 翻牌数字列表
-      wzoom: document.body.clientWidth / 320, // 放大倍数
+      wzoom: document.body.clientWidth / 480, // 放大倍数
       timezone: 8, // 时区，默认北京时间
       bjtime: moment().utcOffset(8), // 北京时间
       adPicture: moment().utcOffset(8).date() // 广告图片
-      // clientWidth: document.body.clientWidth,
-      // clientHeight: document.body.scrollHeight
     }
   },
   components: {
@@ -54,28 +53,28 @@ export default {
       }
 
       // 初始时钟
-      this.fclock()
-      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+      this.bjtime = moment().utcOffset(this.timezone)
+      const nextTimeStr = this.bjtime.format('HHmmss')
+      for (let i = 0; i < this.flipObjs.length; i++) {
+        this.flipObjs[i].setFront(nextTimeStr[i])
+      }
+      // 秒时钟
+      this.bootimer = setTimeout(this.run, (1000 - this.bjtime.millisecond()))
 
       // 启动换图倒计时
-      // if (this.bjtime.second() >= 55) {
-      //   this.imgtimer = setTimeout(this.fitimage, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-      // } else {
-      //   this.imgtimer = setTimeout(this.fitimage, 5000 - this.bjtime.millisecond())
-      // }
       // this.imgtimer = setTimeout(this.fitimage, 10000 - this.bjtime.millisecond()) // 10s
       this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
 
       // 配置全局的基本URL
       this.$axios.defaults.timeout = 1000
       this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
-      this.dal(0) // 记录刷新
+      this.dal(2) // 记录刷新pad
     },
     // 开始计时
     run () {
       // 换点
       this.fclock()
-      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+      this.bootimer = setTimeout(this.run, (1000 - this.bjtime.millisecond()))
     },
     // 广告更换
     ad () {
@@ -84,26 +83,22 @@ export default {
     },
     // 显示时钟
     fclock () {
+      const nowTimeStr = this.bjtime.format('HHmmss')
+
       this.bjtime = moment().utcOffset(this.timezone)
       const nextTimeStr = this.bjtime.format('HHmmss')
       for (let i = 0; i < this.flipObjs.length; i++) {
-        this.flipObjs[i].setFront(nextTimeStr[i])
+        if (nowTimeStr[i] === nextTimeStr[i]) {
+          continue
+        }
+        this.flipObjs[i].flipDown(
+          nowTimeStr[i],
+          nextTimeStr[i]
+        )
       }
     },
     // 图片加载完毕
     fitimage () {
-      // 更换图片
-      // if (this.adPicture === 0) {
-      //   // kindle刷新
-      //   this.adPicture = 100
-      //   // objectFitImages(this.$refs.adPic)
-      //   this.imgtimer = setTimeout(this.fitimage, 1000)
-      // } else if (this.adPicture === 100) {
-      //   this.adPicture = moment().utcOffset(this.timezone).date()
-      //   // objectFitImages(this.$refs.adPic)
-      //   this.imgtimer = setTimeout(this.fitimage, 1000)
-      // }
-
       // 更换图片+不加空白
       if (this.adPicture === 0) {
         this.adPicture = moment().utcOffset(this.timezone).date()
@@ -150,7 +145,9 @@ export default {
       this.$refs.flipperHour1,
       this.$refs.flipperHour2,
       this.$refs.flipperMinute1,
-      this.$refs.flipperMinute2
+      this.$refs.flipperMinute2,
+      this.$refs.flipperSecond1,
+      this.$refs.flipperSecond2
     ]
     objectFitImages(this.$refs.adPic)
     this.init()
@@ -167,23 +164,10 @@ export default {
 </script>
 
 <style>
-.FlipClock {
-    text-align: center;
-}
-.FlipClock .M-Flipper {
-    margin: 0 3px;
-}
-.FlipClock em {
-    display: inline-block;
-    line-height: 102px;
-    font-size: 66px;
-    font-style: normal;
-    vertical-align: top;
-}
-.FlipClock img {
+.FlipClock .PadImg {
      object-fit: contain;
      font-family: "object-fit: contain;";
-     width: 80%;
-     max-height: 52%;
+     width: 85%;
+     max-height: 65%;
 }
 </style>
