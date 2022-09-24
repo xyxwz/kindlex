@@ -73,6 +73,7 @@ a:hover {
 .main {
   padding-bottom: 30px;
   overflow-y: hidden;
+  // height: calc(100vh - 50px);
 }
 
 .footer {

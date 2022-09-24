@@ -33,7 +33,7 @@ export default {
       adtimer: null, // 广告倒计时时钟
       imgtimer: null, // 图片更换倒计时
       flipObjs: [], // 翻牌数字列表
-      wzoom: document.body.clientWidth / 480, // 放大倍数
+      wzoom: (document.body.clientWidth / 480 > 1.5) ? 1.5 : document.body.clientWidth / 480, // 放大倍数
       timezone: 8, // 时区，默认北京时间
       bjtime: moment().utcOffset(8), // 北京时间
       adPicture: moment().utcOffset(8).date() // 广告图片
@@ -172,6 +172,6 @@ export default {
      object-position: center;
      font-family: "object-fit: contain;";
      width: 87%;
-     max-height: 66%;
+     max-height: calc(66vh);
 }
 </style>

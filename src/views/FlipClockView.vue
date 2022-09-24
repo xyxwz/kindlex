@@ -31,7 +31,7 @@ export default {
       adtimer: null, // 广告倒计时时钟
       imgtimer: null, // 图片更换倒计时
       flipObjs: [], // 翻牌数字列表
-      wzoom: document.body.clientWidth / 320, // 放大倍数
+      wzoom: (document.body.clientWidth / 320 > 2.5) ? 2.5 : document.body.clientWidth / 320, // 放大倍数
       timezone: 8, // 时区，默认北京时间
       bjtime: moment().utcOffset(8), // 北京时间
       adPicture: moment().utcOffset(8).date() // 广告图片
@@ -168,30 +168,30 @@ export default {
 
 <style>
 .FlipClock {
-    text-align: center;
+  text-align: center;
 }
 .FlipClock .M-Flipper {
-    margin: 0 3px;
+  margin: 0 3px;
 }
 .FlipClock em {
-    display: inline-block;
-    line-height: 102px;
-    font-size: 66px;
-    font-style: normal;
-    vertical-align: top;
+  display: inline-block;
+  line-height: 102px;
+  font-size: 66px;
+  font-style: normal;
+  vertical-align: top;
 }
 .FlipClock p {
   font-size: x-small;
 }
 .FlipClock img {
-     object-fit: contain;
-     -webkit-object-fit: contain;
-     -moz-osx-object-fit: contain;
-     object-position: center;
-     font-family: "object-fit: contain;";
-     /* width: 80%;
-     max-height: 52%; */
-     width: 87%;
-     max-height: 57%;
+  width: 87%;
+  max-height: 57%;
+  max-height: calc(57vh);
+  /* overflow: hidden; */
+  object-fit: contain;
+  -webkit-object-fit: contain;
+  -moz-osx-object-fit: contain;
+  object-position: center;
+  font-family: "object-fit: contain;";
 }
 </style>
