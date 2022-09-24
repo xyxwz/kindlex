@@ -6,6 +6,7 @@
  */
 <template>
   <div class="FlipClock">
+    <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
     <Flipper ref="flipperHour1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperHour2" v-bind:style="{zoom:wzoom}"/>
     <em v-bind:style="{zoom:wzoom}">:</em>
@@ -14,7 +15,7 @@
     <em v-bind:style="{zoom:wzoom}">:</em>
     <Flipper ref="flipperSecond1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperSecond2" v-bind:style="{zoom:wzoom}"/>
-    <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
+    <p>&nbsp;</p>
     <img class="PadImg" :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
@@ -166,8 +167,11 @@ export default {
 <style>
 .FlipClock .PadImg {
      object-fit: contain;
+     -webkit-object-fit: contain;
+     -moz-osx-object-fit: contain;
+     object-position: center;
      font-family: "object-fit: contain;";
-     width: 85%;
-     max-height: 65%;
+     width: 87%;
+     max-height: 66%;
 }
 </style>

@@ -180,10 +180,18 @@ export default {
     font-style: normal;
     vertical-align: top;
 }
+.FlipClock p {
+  font-size: x-small;
+}
 .FlipClock img {
      object-fit: contain;
+     -webkit-object-fit: contain;
+     -moz-osx-object-fit: contain;
+     object-position: center;
      font-family: "object-fit: contain;";
-     width: 80%;
-     max-height: 52%;
+     /* width: 80%;
+     max-height: 52%; */
+     width: 87%;
+     max-height: 57%;
 }
 </style>

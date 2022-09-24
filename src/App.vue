@@ -11,7 +11,7 @@
       <router-link to="/">&nbsp;Kindle&nbsp;</router-link> |
       <router-link to="/i">&nbsp;iPad&nbsp;</router-link> |
       <a @click="timezone">&nbsp;Time Zone&nbsp;</a> |
-      <a @click="copyright">&nbsp;Copyright</a>
+      <a @click="about">&nbsp;About</a>
     </div>
   </div>
 </template>
@@ -24,10 +24,10 @@ export default {
   methods: {
     timezone () {
       // miniToastr.info('地址：https://660901.cn/?z=时区值，如：\r 格林尼治标准时间地址https://660901.cn/?z=0 \r 爪哇时间+07:30地址https://660901.cn/?z=7.5 \n 夏威夷时间-09:00地址https://660901.cn/?z=-9', '地址设置', 5000)
-      alert('时区地址：660901.cn/?z=时区值\r示例如下：\r格林尼治标准时间地址：660901.cn/?z=0\r爪 哇 时间+07:30地址：660901.cn/?z=7.5\r夏威夷时间-09:00地址：660901.cn/?z=-9\r\riPad翻页时钟地址：660901.cn/i/?z=时区值')
+      alert('时区地址：660901.cn/?z=时区\r示例如下：\r格林尼治标准时间地址：660901.cn/?z=0\r爪 哇 时间+07:30地址：660901.cn/?z=7.5\r夏威夷时间-09:00地址：660901.cn/?z=-9\r\riPad翻页时钟地址：660901.cn/i/?z=时区')
     },
-    copyright () {
-      alert('版权说明\r本网站所有图片归原作者所有，如有侵权请立即与我们联系,我们将及时处理')
+    about () {
+      alert('版权说明\r\t本网站所有图片归原作者所有，如有侵权请立即与我们联系，我们将及时处理\r\t小红书号：660901cn')
     }
   },
   mounted () {
@@ -46,7 +46,7 @@ export default {
 }
 
 nav {
-  padding: 30px;
+  padding: 20px;
 
   // a {
   //   font-weight: bold;
