@@ -1,10 +1,5 @@
 <template>
   <div id="app">
-    <nav>
-      <!-- <router-link to="/">Home</router-link> |
-      <router-link to="/clock">Clock</router-link> |
-      <router-link to="/about">About</router-link> -->
-    </nav>
     <div class="main"><router-view/></div>
     <div class="footer">
       <a href="https://beian.miit.gov.cn/">京ICP备2022019482号-1&nbsp;</a> |
@@ -42,20 +37,6 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  // color: #2c3e50;
-}
-
-nav {
-  padding: 20px;
-
-  // a {
-  //   font-weight: bold;
-  //   color: #2c3e50;
-
-  //   &.router-link-exact-active {
-  //     color: #2c3e50;
-  //   }
-  // }
 }
 
 a {
@@ -71,9 +52,14 @@ a:hover {
 }
 
 .main {
+  padding-top: 30px;
   padding-bottom: 30px;
   overflow-y: hidden;
-  // height: calc(100vh - 50px);
+  height: 100%;
+  width: 100%;
+  // border: 1px;
+  // border-color:brown;
+  // border-style: solid;
 }
 
 .footer {
@@ -81,9 +67,6 @@ a:hover {
   bottom: 0;
   width: 100%;
   line-height: 30px;
-  // background: #42b983;
-  // color: #fff;
-  // text-align: left;
   font-size: x-small;
 }
 </style>
