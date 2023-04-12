@@ -7,25 +7,11 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title>米爸的创新舍/插画时钟</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/es5-shim/4.6.7/es5-shim.min.js"></script>
-    <script async defer data-website-id="df6f67fd-647e-4257-affd-16d5770ea23a" src="https://um.660901.cn/umami.js"></script>
-    <script src="https://pv.sohu.com/cityjson?ie=utf-8"></script>
     <script type="text/javascript">
-      sessionStorage.setItem('cip', returnCitySN["cip"])
-      sessionStorage.setItem('cid', returnCitySN["cid"])
-      sessionStorage.setItem('cname', returnCitySN["cname"])
-
       // 禁止缩放（ios）
       document.addEventListener('gesturestart', function (event) {
         event.preventDefault();
       });
-
-      // 禁止缩放（Chrome）
-      // document.addEventListener('touchstart', function(event) {
-      //   if (event.touches.length > 1) {
-      //     event.preventDefault()
-      //   }
-      // }, { passive: false, capture: false });
-
     </script>
     <style>
       /* :root{

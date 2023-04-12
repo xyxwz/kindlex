@@ -19,7 +19,7 @@
     </div>
     <div class="image-container">
       <!-- 在此处插入图片的HTML代码 -->
-      <img :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+      <img :src="'images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
     </div>
   </div>
 </template>
@@ -65,11 +65,6 @@ export default {
 
       // 启动换图倒计时
       this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
-
-      // 配置全局的基本URL
-      this.$axios.defaults.timeout = 1000
-      this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
-      this.dal(0) // 记录刷新
     },
     // 开始计时
     run () {
@@ -100,22 +95,6 @@ export default {
         // 兼容性刷新图片
         objectFitImages(this.$refs.adPic)
       }
-    },
-    // 记录kindle访问
-    dal (worktype) {
-      this.$axios.post('/kindle', {
-        cid: sessionStorage.getItem('cid'),
-        cip: sessionStorage.getItem('cip'),
-        cname: sessionStorage.getItem('cname'),
-        cwork: worktype
-      }).then(res => {
-        // console.log(res.data)
-        return res.data
-      }).catch(err => {
-        // 请求拦截器和响应拦截器抛出错误时，返回的err对象会传给当前函数的err对象
-        // console.log(err)
-        return err
-      })
     },
     getURLParameter (name, urlsearch) {
       try {

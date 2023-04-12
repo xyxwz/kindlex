@@ -12,7 +12,7 @@
     <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    <img :src="'/images/pre/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+    <img :src="'images/pre/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -44,10 +44,6 @@ export default {
       // 启动整分钟倒计时
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
       this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
-      // 配置全局的基本URL
-      this.$axios.defaults.timeout = 1000
-      this.$axios.defaults.baseURL = 'https://cm.660901.cn/v1'
-      this.dal(1) // 记录刷新
     },
     // 开始计时
     run () {
@@ -76,22 +72,6 @@ export default {
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nextTimeStr[i])
       }
-    },
-    // 记录kindle访问
-    dal (worktype) {
-      this.$axios.post('/kindle', {
-        cid: sessionStorage.getItem('cid'),
-        cip: sessionStorage.getItem('cip'),
-        cname: sessionStorage.getItem('cname'),
-        cwork: worktype
-      }).then(res => {
-        // console.log(res.data)
-        return res.data
-      }).catch(err => {
-        // 请求拦截器和响应拦截器抛出错误时，返回的err对象会传给当前函数的err对象
-        // console.log(err)
-        return err
-      })
     }
   },
   mounted () {

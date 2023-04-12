@@ -12,13 +12,10 @@
 </template>
 
 <script>
-// import miniToastr from 'mini-toastr'
-
 export default {
   name: 'app',
   methods: {
     timezone () {
-      // miniToastr.info('地址：https://660901.cn/?z=时区值，如：\r 格林尼治标准时间地址https://660901.cn/?z=0 \r 爪哇时间+07:30地址https://660901.cn/?z=7.5 \n 夏威夷时间-09:00地址https://660901.cn/?z=-9', '地址设置', 5000)
       alert('时区地址：660901.cn/?z=时区\r示例如下：\r格林尼治标准时间地址：660901.cn/?z=0\r爪 哇 时间+07:30地址：660901.cn/?z=7.5\r夏威夷时间-09:00地址：660901.cn/?z=-9\r\riPad翻页时钟地址：660901.cn/i/?z=时区')
     },
     about () {

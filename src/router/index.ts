@@ -34,17 +34,9 @@ const routes: Array<RouteConfig> = [
 ]
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes
 })
-
-// // 页面标题设置
-// router.beforeEach((to, _from, _next) => {
-//   /* 路由发生变化修改页面title */
-//   if (to.meta.title) {
-//     document.title = to.meta.title
-//   }
-// })
 
 export default router
