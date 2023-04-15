@@ -5,22 +5,16 @@
  * 2022-06-25 增加每小时定时修正计时器
  */
 <template>
-  <div class="container">
-    <div class="clock-container">
-      <!-- 在此处插入时钟组合的HTML代码 -->
-      <Flipper ref="flipperHour1" v-bind:style="{zoom:wzoom}"/>
-      <Flipper ref="flipperHour2" v-bind:style="{zoom:wzoom}"/>
-      <em v-bind:style="{zoom:wzoom}">:</em>
-      <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
-      <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
-    </div>
-    <div class="time-container">
-      <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    </div>
-    <div class="image-container">
-      <!-- 在此处插入图片的HTML代码 -->
-      <img :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
-    </div>
+  <div class="FlipClock">
+    <Flipper ref="flipperHour1" v-bind:style="{zoom:wzoom}"/>
+    <Flipper ref="flipperHour2" v-bind:style="{zoom:wzoom}"/>
+    <em v-bind:style="{zoom:wzoom}">:</em>
+    <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
+    <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
+    <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
+    <!-- <p>{{clientWidth}}</p> -->
+    <!-- <p>{{clientHeight}}</p> -->
+    <img :src="'/images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -173,80 +167,6 @@ export default {
 </script>
 
 <style>
-.container {
-    display: -webkit-box;  /* Old WebKit syntax */
-    display: -moz-box;  /* Old Firefox syntax */
-    display: -ms-flexbox;  /* Old IE syntax */
-    display: -webkit-flex; /* Safari 6.1+ */
-    display: flex;
-    flex-direction: column;
-    /* height: calc(100vh - 150px); */
-    /* height: 100vh; */
-    height: 100%;
-    text-align: center; /**/
-}
-.clock-container {
-    display: -webkit-box;  /* Old WebKit syntax */
-    display: -moz-box;  /* Old Firefox syntax */
-    display: -ms-flexbox;  /* Old IE syntax */
-    display: -webkit-flex; /* Safari 6.1+ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* flex-grow: 0; */
-}
-.time-container {
-    display: -webkit-box;  /* Old WebKit syntax */
-    display: -moz-box;  /* Old Firefox syntax */
-    display: -ms-flexbox;  /* Old IE syntax */
-    display: -webkit-flex; /* Safari 6.1+ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* flex-grow: 0; */
-}
-.image-container {
-    display: -webkit-box;  /* Old WebKit syntax */
-    display: -moz-box;  /* Old Firefox syntax */
-    display: -ms-flexbox;  /* Old IE syntax */
-    display: -webkit-flex; /* Safari 6.1+ */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    -webkit-box-flex: 1;  /* Old WebKit syntax */
-    -moz-box-flex: 1;  /* Old Firefox syntax */
-    -ms-flex: 1;  /* Old IE syntax, autoprefixer prefix */
-    -webkit-flex: 1;
-    flex: 1;
-    /* flex-grow: 1; */
-    /* height: 80%; */
-    border: 1px;
-    border-color: black;
-    border-style: solid;
-}
-.clock-container .M-Flipper {
-  margin: 0 3px;
-}
-.clock-container em {
-  display: inline-block;
-  line-height: 102px;
-  font-size: 66px;
-  font-style: normal;
-  vertical-align: top;
-}
-.time-container p {
-  font-size: x-small;
-}
-.image-container img {
-  max-width: 90%; /* 设置宽度 */
-  max-height: 100%; /* 设置高度 */
-  /* margin: auto; 居中 */
-  object-fit: contain;
-  -webkit-object-fit: contain;
-  -moz-osx-object-fit: contain;
-  object-position: center;
-  font-family: "object-fit: contain;";
-}
 .FlipClock {
   text-align: center;
 }

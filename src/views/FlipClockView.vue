@@ -1,214 +1,118 @@
-/*
- * 翻牌数字
- * @author： 兔子先生+薛先生
- * @createDate: 2019-11-24
- * 2022-06-25 增加每小时定时修正计时器
- */
 <template>
-  <div class="container">
-    <div class="clock-container">
-      <!-- 在此处插入时钟组合的HTML代码 -->
-      <Flipper ref="flipperHour1" v-bind:style="{zoom:wzoom}"/>
-      <Flipper ref="flipperHour2" v-bind:style="{zoom:wzoom}"/>
-      <em v-bind:style="{zoom:wzoom}">:</em>
-      <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
-      <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
-    </div>
-    <div class="time-container">
-      <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    </div>
-    <div class="image-container">
-      <!-- 在此处插入图片的HTML代码 -->
-      <img :src="'images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
-    </div>
+  <div class="FlipClock">
+    <!-- 在此处插入时钟组合的HTML代码 -->
+    <Flipper ref="flipperHour1" v-bind:style="{zoom:wzoom}"/>
+    <Flipper ref="flipperHour2" v-bind:style="{zoom:wzoom}"/>
+    <em v-bind:style="{zoom:wzoom}">:</em>
+    <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
+    <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
+    <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
+    <!-- 在此处插入图片的HTML代码 -->
+    <img :src="'images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
-
 <script>
 import Flipper from '@/components/Flipper.vue'
 import moment from 'moment'
 import objectFitImages from 'object-fit-images'
-
 export default {
   name: 'FlipClockView',
-  data () {
-    return {
-      bootimer: null, // 校时倒计时时钟
-      adtimer: null, // 广告倒计时时钟
-      imgtimer: null, // 图片更换倒计时
-      flipObjs: [], // 翻牌数字列表
-      wzoom: (document.body.clientWidth / 320 > 2.5) ? 2.5 : document.body.clientWidth / 320, // 放大倍数
-      timezone: 8, // 时区，默认北京时间
-      bjtime: moment().utcOffset(8), // 北京时间
-      adPicture: moment().utcOffset(8).date() // 广告图片
-      // clientWidth: document.body.clientWidth,
-      // clientHeight: document.body.scrollHeight
-    }
-  },
   components: {
     Flipper
   },
+  data () {
+    return {
+      bootimer: null, // 校时倒计时时钟
+      adtimer: null, // 每日图片倒计时时钟
+      imgtimer: null, // 图片兼容处理倒计时
+      flipObjs: [], // 翻牌数字列表
+      wzoom: Math.min(document.body.clientWidth / 320, 2.5), // 放大倍数
+      timezone: 8, // 时区，默认北京时间
+      bjtime: moment().utcOffset(8), // 北京时间
+      adPicture: moment().utcOffset(8).date() // 广告图片
+    }
+  },
+  computed: {
+    // 是否空
+    isNotEmptyStr () {
+      return (s) => typeof s === 'string' && s.length > 0
+    }
+  },
   methods: {
-    // 初始化数字
+    // 初始化
     init () {
-      // 获取时区 ?z=number(-12~12)
+      this.fitImage()
+      this.getTimezone()
+      this.initClock()
+      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+      this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000 - this.bjtime.minute() * 60000)
+    },
+    // 初始化时钟
+    initClock () {
+      this.flipObjs = [
+        this.$refs.flipperHour1,
+        this.$refs.flipperHour2,
+        this.$refs.flipperMinute1,
+        this.$refs.flipperMinute2
+      ]
+      this.refClock()
+    },
+    // 开始计时
+    run () {
+      this.refClock()
+      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
+    },
+    // 刷新时钟
+    refClock () {
+      this.bjtime = this.getBjTime()
+      const nextTimeStr = this.bjtime.format('HHmmss')
+      for (let i = 0; i < this.flipObjs.length; i++) {
+        this.flipObjs[i].setFront(nextTimeStr[i])
+      }
+    },
+    // 每日更换图片
+    setPicture () {
+      this.adPicture = this.getBjTime().date()
+      // 兼容性延迟处理
+      this.imgtimer = setTimeout(this.fitImage, 500)
+      this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000)
+    },
+    // 图片兼容性处理
+    fitImage () {
+      objectFitImages(this.$refs.adPic)
+    },
+    // 获取URL参数
+    getURLParameter (name, urlsearch) {
+      const regExp = new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)')
+      const match = regExp.exec(urlsearch || location.search)
+      return match ? decodeURIComponent(match[1].replace(/\+/g, '%20')) : ''
+    },
+    // 获取时区
+    getTimezone () {
       const zparm = this.getURLParameter('z', window.location.href)
       if (this.isNotEmptyStr(zparm) && !isNaN(Number(zparm))) {
         if (Number(zparm) >= -12 && Number(zparm) <= 12) {
           this.timezone = Number(zparm)
         }
       }
-
-      // 初始时钟
-      this.fclock()
-      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-
-      // 启动换图倒计时
-      this.adtimer = setTimeout(this.ad, (24 - this.bjtime.hour()) * 3600000) // 60*60*1000
     },
-    // 开始计时
-    run () {
-      // 换点
-      this.fclock()
-      this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
-    },
-    // 广告更换
-    ad () {
-      // 凌晨更换图片
-      this.$router.go(0) // 刷新，重置，间接换广告
-    },
-    // 显示时钟
-    fclock () {
-      this.bjtime = moment().utcOffset(this.timezone)
-      const nextTimeStr = this.bjtime.format('HHmmss')
-      for (let i = 0; i < this.flipObjs.length; i++) {
-        this.flipObjs[i].setFront(nextTimeStr[i])
-      }
-    },
-    // 图片加载完毕
-    fitimage () {
-      // 更换图片+不加空白
-      if (this.adPicture === 0) {
-        this.adPicture = moment().utcOffset(this.timezone).date()
-        this.imgtimer = setTimeout(this.fitimage, 500)
-      } else {
-        // 兼容性刷新图片
-        objectFitImages(this.$refs.adPic)
-      }
-    },
-    getURLParameter (name, urlsearch) {
-      try {
-        return (decodeURIComponent(
-          (new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(urlsearch || location.search))[1].replace(/\+/g, '%20')
-        ))
-      } catch {
-        return ''
-      }
-    },
-    isNotEmptyStr (s) {
-      if (typeof s === 'string' && s.length > 0) {
-        return true
-      }
-      return false
+    // 获取时区（北京）时间
+    getBjTime () {
+      return moment().utcOffset(this.timezone)
     }
   },
   mounted () {
-    this.flipObjs = [
-      this.$refs.flipperHour1,
-      this.$refs.flipperHour2,
-      this.$refs.flipperMinute1,
-      this.$refs.flipperMinute2
-    ]
-    objectFitImages(this.$refs.adPic)
     this.init()
   },
   beforeDestroy () {
     clearTimeout(this.bootimer)
     clearTimeout(this.adtimer)
     clearTimeout(this.imgtimer)
-    this.bootimer = null
-    this.adtimer = null
-    this.imgtimer = null
   }
 }
 </script>
 
 <style>
-.container {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    flex-direction: column;
-    /* display: table; */
-    height: 100%;
-    text-align: center;
-}
-.clock-container {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* display: table-row;
-    vertical-align: middle; */
-}
-.time-container {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    /* display: table-row;
-    vertical-align: middle; */
-}
-.image-container {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
-    -ms-flex: 1;
-    -webkit-flex: 1;
-    flex: 1;
-    /* display: table-row;
-    vertical-align: bottom; */
-    /* border: 1px;
-    border-color: black;
-    border-style: solid; */
-}
-.clock-container .M-Flipper {
-  margin: 0 3px;
-}
-.clock-container em {
-  display: inline-block;
-  line-height: 102px;
-  font-size: 66px;
-  font-style: normal;
-  vertical-align: top;
-}
-.time-container p {
-  font-size: x-small;
-}
-.image-container img {
-  max-width: 90%; /* 设置宽度 */
-  max-height: 100%; /* 设置高度 */
-  /* margin: auto; 居中 */
-  object-fit: contain;
-  -webkit-object-fit: contain;
-  -moz-osx-object-fit: contain;
-  object-position: center;
-  font-family: "object-fit: contain;";
-}
 .FlipClock {
   text-align: center;
 }
@@ -229,6 +133,7 @@ export default {
   width: 87%;
   max-height: 57%;
   max-height: calc(57vh);
+  /* overflow: hidden; */
   object-fit: contain;
   -webkit-object-fit: contain;
   -moz-osx-object-fit: contain;

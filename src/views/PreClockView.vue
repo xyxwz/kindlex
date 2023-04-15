@@ -28,7 +28,7 @@ export default {
       bootimer: null, // 校时倒计时时钟
       adtimer: null, // 广告倒计时时钟
       flipObjs: [], // 翻牌数字列表
-      wzoom: (document.body.clientWidth / 320 > 2.5) ? 2.5 : document.body.clientWidth / 320, // 放大倍数
+      wzoom: Math.min(document.body.clientWidth / 320, 2.5), // 放大倍数
       bjtime: moment().utcOffset(480), // 北京时间
       adPicture: 1, // 广告图片
       adNum: 1 // 当前广告号
