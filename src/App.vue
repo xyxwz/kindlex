@@ -65,7 +65,8 @@ export default {
   },
   mounted () {
     // 从localStorage中获取vtimezoneValue的值
-    this.timezoneValue = parseFloat(localStorage.getItem('timezoneValue')) || this.timezoneValue
+    // this.timezoneValue = parseFloat(localStorage.getItem('timezoneValue')) || this.timezoneValue
+    this.timezoneValue = !isNaN(parseFloat(localStorage.getItem('timezoneValue'))) ? parseFloat(localStorage.getItem('timezoneValue')) : this.timezoneValue
   }
 }
 </script>

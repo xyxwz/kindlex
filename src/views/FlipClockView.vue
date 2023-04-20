@@ -42,8 +42,7 @@ export default {
     // 初始化
     init () {
       this.fitImage()
-      // this.getTimezone()
-      this.timezone = parseFloat(localStorage.getItem('timezoneValue')) || this.timezone
+      this.getTimezone()
       this.initClock()
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
       this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000 - this.bjtime.minute() * 60000)
@@ -90,12 +89,13 @@ export default {
     },
     // 获取时区
     getTimezone () {
-      const zparm = this.getURLParameter('z', window.location.href)
-      if (this.isNotEmptyStr(zparm) && !isNaN(Number(zparm))) {
-        if (Number(zparm) >= -12 && Number(zparm) <= 12) {
-          this.timezone = Number(zparm)
-        }
-      }
+      // const zparm = this.getURLParameter('z', window.location.href)
+      // if (this.isNotEmptyStr(zparm) && !isNaN(Number(zparm))) {
+      //   if (Number(zparm) >= -12 && Number(zparm) <= 12) {
+      //     this.timezone = Number(zparm)
+      //   }
+      // }
+      this.timezone = !isNaN(parseFloat(localStorage.getItem('timezoneValue'))) ? parseFloat(localStorage.getItem('timezoneValue')) : this.timezone
     },
     // 获取时区（北京）时间
     getBjTime () {
