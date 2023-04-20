@@ -12,7 +12,16 @@
       document.addEventListener('gesturestart', function (event) {
         event.preventDefault();
       });
+      // 百度统计
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?d589367b091276aee579e3193842733c";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
     </script>
+      
     <style>
       /* :root{
         --footer-height: 30px;
