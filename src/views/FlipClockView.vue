@@ -42,7 +42,8 @@ export default {
     // 初始化
     init () {
       this.fitImage()
-      this.getTimezone()
+      // this.getTimezone()
+      this.timezone = parseFloat(localStorage.getItem('timezoneValue')) || this.timezone
       this.initClock()
       this.bootimer = setTimeout(this.run, (60 - this.bjtime.second()) * 1000 - this.bjtime.millisecond())
       this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000 - this.bjtime.minute() * 60000)
