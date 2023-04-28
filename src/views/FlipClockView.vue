@@ -72,10 +72,13 @@ export default {
     },
     // 每日更换图片
     setPicture () {
-      this.adPicture = this.getBjTime().date()
-      // 兼容性延迟处理
-      this.imgtimer = setTimeout(this.fitImage, 500)
-      this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000)
+      // this.adPicture = this.getBjTime().date()
+      // // 兼容性延迟处理
+      // this.imgtimer = setTimeout(this.fitImage, 500)
+      // this.adtimer = setTimeout(this.setPicture, (24 - this.bjtime.hour()) * 3600000)
+      // 刷新页面
+      // this.$router.go(0)
+      location.reload()
     },
     // 图片兼容性处理
     fitImage () {
