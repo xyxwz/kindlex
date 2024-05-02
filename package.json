@@ -10,7 +10,6 @@
   "dependencies": {
     "axios": "^0.27.2",
     "babel-polyfill": "^6.26.0",
-    "caniuse-lite": "^1.0.30001517",
     "core-js": "^3.8.3",
     "moment": "^2.29.4",
     "object-fit-images": "^3.2.4",
