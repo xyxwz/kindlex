@@ -9,9 +9,9 @@
       <div v-if="isInputVisible">
         <div class="overlay" @click="closeInput"></div>
         <div class="input-container">
-          <label for="timezone-input">当地时区：</label>
-          <input id="timezone-input" type="text" v-model="tempInputValue" placeholder="请输入-12~12的数字">
-          <button @click="setValue">确定</button>
+          <label for="timezone-input">当地时区 TimeZone：</label>
+          <input id="timezone-input" type="text" v-model="tempInputValue" placeholder="请输入-12~12的数字。Please enter a number from -12 to 12.">
+          <button @click="setValue">OK</button>
           <!-- <button @click="closeInput">取消</button> -->
         </div>
       </div>
@@ -31,11 +31,8 @@ export default {
     }
   },
   methods: {
-    timezone () {
-      alert('时区地址：660901.cn/?z=时区\r示例如下：\r格林尼治标准时间地址：660901.cn/?z=0\r爪 哇 时间+07:30地址：660901.cn/?z=7.5\r夏威夷时间-09:00地址：660901.cn/?z=-9\r\riPad翻页时钟地址：660901.cn/i/?z=时区')
-    },
     about () {
-      alert('版权说明\r\t本网站所有图片归原作者所有，如有侵权请立即与我们联系，我们将及时处理\r\t小红书号：660901cn')
+      alert('版权说明Copyright Notice\r本网站所有图片归原作者所有，如有侵权请立即与我们联系，我们将及时处理。\rAll images on this website are the property of their respective owners. If there is any infringement, please contact us immediately and we will deal with it promptly.\r小红书号Xiaohongshu Account：660901cn')
     },
     showInput () {
       this.tempInputValue = this.timezoneValue.toString()
@@ -47,11 +44,11 @@ export default {
     setValue () {
       const reg = /^([-+])?(0|([1-9]\d*))(\.\d+)?$/
       if (!reg.test(this.tempInputValue)) {
-        alert('请输入-12至12之间，0.5为最小单元的世界时区数字')
+        alert('请输入-12至12之间，0.5为最小单元的世界时区数字\rPlease enter a world time zone number between -12 and 12, with increments of 0.5.')
       } else {
         const val = parseFloat(this.tempInputValue)
         if (val < -12 || val > 12 || val % 0.5 !== 0) {
-          alert('请输入-12至12之间，0.5为最小单元的世界时区数字')
+          alert('请输入-12至12之间，0.5为最小单元的世界时区数字\rPlease enter a world time zone number between -12 and 12, with increments of 0.5.')
         } else {
           this.timezoneValue = val
           localStorage.setItem('timezoneValue', this.timezoneValue)
