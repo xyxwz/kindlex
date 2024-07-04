@@ -2,7 +2,7 @@
   <div id="app">
     <div class="main"><router-view/></div>
     <div class="footer">
-      <!-- <a href="https://beian.miit.gov.cn/">京ICP备2022019482号-1&nbsp;</a> | -->
+      <a href="https://github.com/xyxwz/kindlex">GitHub&nbsp;</a> |
       <router-link to="/">&nbsp;Kindle&nbsp;</router-link> |
       <router-link to="/i">&nbsp;iPad&nbsp;</router-link> |
       <a @click="showInput">&nbsp;Time Zone&nbsp;</a> |

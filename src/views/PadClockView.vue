@@ -10,7 +10,7 @@
     <Flipper ref="flipperSecond1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperSecond2" v-bind:style="{zoom:wzoom}"/>
     <p>&nbsp;</p>
-    <img class="PadImg" :src="'images/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+    <img :src="currentAdPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -18,6 +18,7 @@
 import Flipper from '@/components/Flipper.vue'
 import moment from 'moment'
 import objectFitImages from 'object-fit-images'
+import axios from 'axios'
 
 export default {
   name: 'PadClockView',
@@ -30,7 +31,9 @@ export default {
       wzoom: Math.min(document.body.clientWidth / 480, 1.5), // 放大倍数
       timezone: 8, // 时区，默认北京时间
       bjtime: moment().utcOffset(8), // 北京时间
-      adPicture: moment().utcOffset(8).date() // 广告图片
+      // adPicture: moment().utcOffset(8).date(), // 广告图片
+      adPictures: [], // 广告图片列表
+      currentAdPicture: '' // 当前广告图片 URL
     }
   },
   components: {
@@ -123,10 +126,27 @@ export default {
     // 获取时区（北京）时间
     getBjTime () {
       return moment().utcOffset(this.timezone)
+    },
+    // 加载广告图片列表
+    async loadAdPictures () {
+      try {
+        const response = await axios.get('/images.json')
+        this.adPictures = response.data.map(photo => photo.photo_url)
+        const currentDate = this.getBjTime().date()
+        if (currentDate <= this.adPictures.length) {
+          this.currentAdPicture = this.adPictures[currentDate - 1]
+        } else {
+          this.currentAdPicture = this.adPictures[0]
+        }
+      } catch (error) {
+        console.error('Failed to load ad pictures:', error)
+      }
     }
   },
   mounted () {
-    this.init()
+    this.loadAdPictures().then(() => {
+      this.init()
+    })
   },
   beforeDestroy () {
     clearTimeout(this.bootimer)

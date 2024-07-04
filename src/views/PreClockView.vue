@@ -12,7 +12,7 @@
     <Flipper ref="flipperMinute1" v-bind:style="{zoom:wzoom}"/>
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
-    <img :src="'images/pre/'+adPicture.toString()+'.jpg'" :alt="adPicture" ref="adPic"/>
+    <img :src="currentAdPicture" :alt="adPicture" ref="adPic"/>
   </div>
 </template>
 
@@ -20,6 +20,7 @@
 import Flipper from '@/components/Flipper.vue'
 import moment from 'moment'
 import objectFitImages from 'object-fit-images'
+import axios from 'axios'
 
 export default {
   name: 'PreClockView',
@@ -31,7 +32,9 @@ export default {
       wzoom: Math.min(document.body.clientWidth / 320, 2.5), // 放大倍数
       bjtime: moment().utcOffset(480), // 北京时间
       adPicture: 1, // 广告图片
-      adNum: 1 // 当前广告号
+      adNum: 1, // 当前广告号
+      adPictures: [], // 广告图片列表
+      currentAdPicture: '' // 当前广告图片 URL
     }
   },
   components: {
@@ -53,13 +56,11 @@ export default {
     // 广告更换
     ad () {
       // 更换图片，不加空白
-      if (this.adNum === 31) {
-        this.adPicture = 1
-        this.adNum = 1
-      } else {
-        this.adNum += 1
-        this.adPicture = this.adNum
+      if (this.adNum >= this.adPictures.length) {
+        this.adNum = 0
       }
+      this.currentAdPicture = this.adPictures[this.adNum]
+      this.adNum += 1
       this.adtimer = setTimeout(this.ad, 3000) // 更换未来图片
 
       // 兼容显示
@@ -72,6 +73,16 @@ export default {
       for (let i = 0; i < this.flipObjs.length; i++) {
         this.flipObjs[i].setFront(nextTimeStr[i])
       }
+    },
+    // 加载广告图片列表
+    async loadAdPictures () {
+      try {
+        const response = await axios.get('/images.json')
+        this.adPictures = response.data.map(photo => photo.photo_url)
+        this.currentAdPicture = this.adPictures[0]
+      } catch (error) {
+        console.error('Failed to load ad pictures:', error)
+      }
     }
   },
   mounted () {
@@ -82,7 +93,9 @@ export default {
       this.$refs.flipperMinute2
     ]
     objectFitImages(this.$refs.adPic)
-    this.init()
+    this.loadAdPictures().then(() => {
+      this.init()
+    })
   },
   beforeDestroy () {
     clearTimeout(this.bootimer)
