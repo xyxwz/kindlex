@@ -8,7 +8,7 @@
     <Flipper ref="flipperMinute2" v-bind:style="{zoom:wzoom}"/>
     <p>{{bjtime.format("YYYY-MM-DD HH:mm:ss, MMMM, dddd")}}</p>
     <!-- 在此处插入图片的HTML代码 -->
-    <img :src="currentAdPicture" ref="adPic"/>
+    <img :data-src="currentAdPicture" class="lazyload" ref="adPic"/>
   </div>
 </template>
 <script>
@@ -16,6 +16,7 @@ import Flipper from '@/components/Flipper.vue'
 import moment from 'moment'
 import objectFitImages from 'object-fit-images'
 import axios from 'axios'
+import 'lazysizes'
 
 export default {
   name: 'FlipClockView',
