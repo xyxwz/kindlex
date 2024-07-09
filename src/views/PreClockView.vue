@@ -81,7 +81,7 @@ export default {
         this.adPictures = response.data.map(photo => photo.photo_url)
         this.currentAdPicture = this.adPictures[0]
       } catch (error) {
-        console.error('Failed to load ad pictures:', error)
+        // console.error('Failed to load ad pictures:', error)
       }
     }
   },

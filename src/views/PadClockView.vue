@@ -139,7 +139,7 @@ export default {
           this.currentAdPicture = this.adPictures[0]
         }
       } catch (error) {
-        console.error('Failed to load ad pictures:', error)
+        // console.error('Failed to load ad pictures:', error)
       }
     }
   },

@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
 import FlipClockView from '@/views/FlipClockView.vue'
-import PreClockView from '@/views/PreClockView.vue'
-import PadClockView from '@/views/PadClockView.vue'
+// import PreClockView from '@/views/PreClockView.vue'
+// import PadClockView from '@/views/PadClockView.vue'
 import TimeView from '@/views/TimeView.vue'
 
 Vue.use(VueRouter)
@@ -19,7 +19,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/i',
     name: 'padclock',
-    component: PadClockView,
+    // component: PadClockView,
+    component: () => import(/* webpackChunkName: "PadClockView" */ '@/views/PadClockView.vue'),
     meta: {
       title: 'iPad插画时钟'
     }
@@ -27,7 +28,8 @@ const routes: Array<RouteConfig> = [
   {
     path: '/p',
     name: 'preclock',
-    component: PreClockView,
+    // component: PreClockView,
+    component: () => import(/* webpackChunkName: "PreClockView" */ '@/views/PreClockView.vue'),
     meta: {
       title: '插画预览'
     }
